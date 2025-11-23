@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-
     <link rel="icon" type="image/png" href="tab.png">
-
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
 <title>Stork Oracle Run</title>
@@ -12,83 +10,55 @@
 html,body{
     height:100%; margin:0; padding: 0;
     font-family:Segoe UI,Tahoma,sans-serif; color:#fff; background:#050505;
-    overflow:hidden; /* Prevent body scroll */
-    position: fixed; width: 100%; /* Lock iOS bounce */
-    touch-action: none; /* Disable default gestures */
-    user-select: none;
+    overflow:hidden; position: fixed; width: 100%; touch-action: none; user-select: none;
 }
 #game-container{
-  position:relative;
-  width:100%;
-  max-width:450px;
-  /* ارتفاع پیش فرض برای دسکتاپ و صفحه های بزرگتر */
-  height:100vh; 
-  margin:0 auto;
-  border:2px solid #00ff9d;
-  background:#0d1117;
-  overflow:hidden;
+  position:relative; width:100%; max-width:450px; height:100vh; margin:0 auto;
+  border:2px solid #00ff9d; background:#0d1117; overflow:hidden;
+  box-shadow: 0 0 50px rgba(0, 255, 157, 0.1); /* External Glow */
 }
 canvas{display:block;width:100%;height:100%;}
 #ui-layer{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;z-index:20;pointer-events:none;}
-.hud-box{background:rgba(0,0,0,0.45);padding:6px 10px;border-radius:8px;font-size:18px;pointer-events:auto;}
-#start-screen,#game-over-screen,#lobby-screen{position:absolute;inset:0;background:rgba(0,0,0,0.9);backdrop-filter:blur(4px);z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
-#logo{width:120px;margin-bottom:12px;}
-h1{color:#00ff9d;margin:0 0 10px;font-size:28px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 12px #00ff9d;}
-.instructions{background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;color:#ccc;line-height:1.6;margin-bottom:18px;}
-button{background:linear-gradient(45deg,#00ff9d,#00cc7e);border:none;padding:12px 28px;border-radius:36px;font-weight:700;cursor:pointer;transition:transform 0.1s; -webkit-tap-highlight-color: transparent;}
+.hud-box{background:rgba(0,0,0,0.6); border: 1px solid rgba(0,255,157,0.3); padding:6px 10px;border-radius:8px;font-size:18px;pointer-events:auto; box-shadow: 0 4px 10px rgba(0,0,0,0.5);}
+#start-screen,#game-over-screen,#lobby-screen{position:absolute;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+#logo{width:120px;margin-bottom:12px; filter: drop-shadow(0 0 10px rgba(0,255,157,0.5));}
+h1{color:#00ff9d;margin:0 0 10px;font-size:28px;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 20px #00ff9d, 0 0 10px #00ff9d;}
+.instructions{background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;color:#ccc;line-height:1.6;margin-bottom:18px; border: 1px solid rgba(255,255,255,0.1);}
+button{background:linear-gradient(45deg,#00ff9d,#00cc7e);border:none;padding:12px 28px;border-radius:36px;font-weight:700;cursor:pointer;transition:all 0.2s; -webkit-tap-highlight-color: transparent; box-shadow: 0 0 15px rgba(0,255,157,0.4); text-transform: uppercase;}
 button:active{transform:scale(0.95);}
-button:disabled{background:#555;color:#888;cursor:not-allowed;transform:none;}
-.x-btn{background:#000;color:#fff;border:1px solid #333;padding:10px 18px;border-radius:36px;}
+button:disabled{background:#555;color:#888;cursor:not-allowed;transform:none;box-shadow:none;}
+.x-btn{background:#000;color:#fff;border:1px solid #333;padding:10px 18px;border-radius:36px; box-shadow: none;}
 #game-over-character{width:160px;margin-bottom:10px;}
 .hidden{display:none!important;}
 .note{position:fixed;bottom:10px;left:8px;color:rgba(255,255,255,0.35);font-size:12px;z-index:40;}
 .mobile-controls{position:fixed;bottom:20px;width:100%;display:flex;justify-content:space-between;pointer-events:auto;z-index:35;padding:0 20px;}
-.mobile-btn{width:120px;height:80px;background:#00ff9d;opacity:0.35;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;user-select:none;}
+.mobile-btn{width:120px;height:80px;background:rgba(0, 255, 157, 0.1); border: 1px solid rgba(0, 255, 157, 0.3); backdrop-filter: blur(4px); border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:bold;user-select:none; color: #00ff9d;}
 @media (min-width:768px){.mobile-controls{display:none;}}
 #made-by{position:fixed;bottom:10px;right:8px;text-align:center;font-size:12px;color:rgba(255,255,255,0.5);z-index:40;}
 
 #lobby-screen .panel, #game-over-screen .panel-lb {
-    background: rgba(255,255,255,0.05); padding:25px; border-radius:24px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.5); width: 100%; max-width: 350px;
+    background: rgba(13, 17, 23, 0.9); padding:25px; border-radius:24px; border: 1px solid rgba(0, 255, 157, 0.2); box-shadow: 0 0 40px rgba(0, 255, 157, 0.1); width: 100%; max-width: 350px;
     display: flex; flex-direction: column; align-items: center;
 }
 .full-btn { width: 100%; padding: 12px; font-size: 16px; border-radius: 10px; margin-top: 5px; }
-input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; margin: 15px 0; text-align: center; -webkit-user-select: text; user-select: text;}
+input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #334155; background: #0f172a; color: white; box-sizing: border-box; margin: 15px 0; text-align: center; -webkit-user-select: text; user-select: text; transition: border 0.3s;}
+input[type="text"]:focus { outline: none; border-color: #00ff9d; box-shadow: 0 0 10px rgba(0,255,157,0.2);}
 
 /* Scrollable Lists Logic */
 .player-list { 
-    list-style: none; padding: 0; margin: 10px 0; 
-    max-height: 150px; 
-    overflow-y: auto; /* Scrollable */
-    text-align: left; width: 100%; 
-    touch-action: pan-y; /* Allow vertical scroll on touch */
-    -webkit-overflow-scrolling: touch;
+    list-style: none; padding: 0; margin: 10px 0; max-height: 150px; overflow-y: auto; text-align: left; width: 100%; touch-action: pan-y; -webkit-overflow-scrolling: touch;
 }
-.player-list li { background: rgba(255,255,255,0.1); padding: 8px; margin-bottom: 5px; border-radius: 6px; display: flex; justify-content: space-between; font-size: 14px;}
+.player-list li { background: rgba(255,255,255,0.05); padding: 8px; margin-bottom: 5px; border-radius: 6px; display: flex; justify-content: space-between; font-size: 14px; border-left: 2px solid #00ff9d;}
 .is-host { color: #ffd700; font-size: 12px; }
-.copy-box { background: #1e293b; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 12px; cursor: pointer; word-break: break-all; margin-bottom: 10px; width: 100%;}
+.copy-box { background: #1e293b; padding: 8px; border-radius: 6px; font-family: monospace; font-size: 12px; cursor: pointer; word-break: break-all; margin-bottom: 10px; width: 100%; color: #00ff9d;}
 .player-count-label { width: 100%; text-align: left; color: #aaa; font-size: 0.9em; margin-bottom: 5px; }
-
-/* Leaderboard Scroll Logic */
-.final-lb { 
-    width: 100%; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; 
-    max-height: 200px; 
-    overflow-y: auto; /* Scrollable */
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
-}
+.final-lb { width: 100%; margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; max-height: 200px; overflow-y: auto; touch-action: pan-y; -webkit-overflow-scrolling: touch;}
 .final-lb-row { display: flex; justify-content: space-between; padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;}
 .rank-medal { font-size: 18px; margin-right: 5px; }
 .player-status-dead { color: #ff4d4d; font-size: 11px; margin-left: 10px; }
 .player-status-playing { color: #00ff9d; font-size: 11px; margin-left: 10px; }
 .lb-score { color: #00ff9d; font-weight: bold;}
-
-@media (max-width:767px){ 
-  /* تنظیم ارتفاع کانتینر بازی در موبایل برای جا دادن دکمه ها در بیرون */
-  #game-container {
-      height: 80vh; /* 85% of viewport height */
-      border-bottom: none; /* remove bottom border when controls are outside */
-  }
-}
+@media (max-width:767px){ #game-container { height: 80vh; border-bottom: none; } }
 </style>
 </head>
 <body>
@@ -103,7 +73,6 @@ input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1p
     <img id="logo" src="logo.png" alt="logo">
     <h1>STORK ORACLE RUN</h1>
     <div class="instructions">⚡ Collect Data — ⛽ Avoid Gas Fees — 🛡️ Shields — 🧲 Magnets!</div>
-    
     <button id="start-solo-btn" class="full-btn" style="margin-top:0;">START SOLO GAME</button>
     <input type="text" id="playerNameInput" placeholder="Enter Your Discord Username" maxlength="25">
     <button id="start-multi-btn" class="full-btn" style="background:linear-gradient(45deg,#3498db,#2980b9);">PLAY WITH FRIENDS</button>
@@ -114,11 +83,8 @@ input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1p
         <h2>Game Lobby</h2>
         <p>Send this link to your friends:</p>
         <div class="copy-box" id="shareLink" onclick="copyLink()">Generating Link...</div>
-        
         <div id="lobby-count" class="player-count-label">Players: 0</div>
-        
         <ul class="player-list" id="lobbyPlayerList"></ul>
-        
         <div id="hostControls" class="hidden" style="width:100%">
             <button id="hostStartBtn" class="full-btn" style="background:#00ff9d; color:#000;">Start Match</button>
         </div>
@@ -134,24 +100,22 @@ input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1p
       <img id="game-over-character" src="cry.png" alt="cry">
       <h1 id="gameOverTitle" style="color:#ff4d4d; margin-bottom: 5px;">Game Over</h1>
       <p style="font-size:18px">Final Score: <span id="final-score">0</span></p>
-
       <div id="multiplayerResults" class="hidden" style="width:100%">
         <h3 style="color:#00ff9d; margin: 10px 0;">Leaderboard</h3>
         <div class="final-lb" id="finalLeaderboard"></div>
       </div>
-      
       <button id="try-btn" style="margin-top: 15px;">MAIN MENU</button>
       <a id="share-link" target="_blank" style="margin-top:12px;text-decoration:none">
         <button class="x-btn">Share Score</button>
       </a>
     </div>
-    </div>
-
-  <canvas id="gameCanvas" aria-label="game-canvas"></canvas>
   </div>
 
+  <canvas id="gameCanvas" aria-label="game-canvas"></canvas>
+</div>
+
 <div class="note">Desktop: Arrows / A-D — Mobile: Tap Buttons</div>
-<div id="made-by">Made by milad1377</div>
+<div id="made-by">Made by milad1377 | FX Edition</div>
 
 <div class="mobile-controls">
   <div id="left-btn" class="mobile-btn">◀</div>
@@ -161,7 +125,6 @@ input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1p
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
   import { getDatabase, ref, set, push, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-  
   const firebaseConfig = {
     apiKey: "AIzaSyDe_8L3NgLPfCPh7BwpNjoU_O8xUPAHiPA",
     authDomain: "stork-oracle-run.firebaseapp.com",
@@ -172,17 +135,9 @@ input[type="text"] { width: 100%; padding: 12px; border-radius: 10px; border: 1p
     appId: "1:804704980500:web:a145d1b28300ec9aae6101",
     measurementId: "G-BM0XKFFZ8H"
   };
-
   const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  
-  window.db = db;
-  window.dbRef = ref;
-  window.dbSet = set;
-  window.dbUpdate = update;
-  window.dbRemove = remove;
-  window.dbOnValue = onValue;
-  window.dbGet = get; 
+  window.db = getDatabase(app);
+  window.dbRef = ref; window.dbSet = set; window.dbUpdate = update; window.dbRemove = remove; window.dbOnValue = onValue; window.dbGet = get; 
 </script>
 
 <script>
@@ -205,22 +160,19 @@ const rightBtn=document.getElementById('right-btn');
 const playerNameInput=document.getElementById('playerNameInput');
 
 let ctx, images={}, gameRunning=false, score=0, health=5, frames=0, difficultyFactor=1, items=[];
+let particles = []; // Particle system array
+let bgLines = []; // Background Stream lines
+let shakeStrength = 0; // For screen shake
 let moveLeft=false, moveRight=false;
 const player={
     x:0, y:0, width:80, height:100, speed:7, 
     hasShield:false, shieldTimer:0, magnetTimer:0, facingRight:true,
-    isInvincible: false,
-    invincibilityTimer: 0 
+    isInvincible: false, invincibilityTimer: 0 
 };
-const INVINCIBILITY_DURATION = 240; // 4 seconds
-const SHIELD_DURATION = 420; // 7 seconds
+const INVINCIBILITY_DURATION = 240; 
+const SHIELD_DURATION = 420; 
 
-let isMultiplayer = false;
-let roomId = null;
-let playerId = null;
-let playerName = "Player";
-let isHost = false;
-let joiningInProgress = false; 
+let isMultiplayer = false; let roomId = null; let playerId = null; let playerName = "Player"; let isHost = false; let joiningInProgress = false; 
 
 const urlParams = new URLSearchParams(window.location.search);
 if(urlParams.get('room')){
@@ -231,37 +183,92 @@ if(urlParams.get('room')){
 
 const AudioContextClass=window.AudioContext||window.webkitAudioContext;
 const audioCtx=new AudioContextClass();
-function playBeep(freq,dur=0.1,vol=0.2){
+function playBeep(freq,dur=0.1,vol=0.2, type='sine'){
   const osc=audioCtx.createOscillator();
   const gain=audioCtx.createGain();
-  osc.frequency.value=freq; osc.type='sine';
+  osc.frequency.value=freq; osc.type=type;
   gain.gain.value=vol;
+  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + dur);
   osc.connect(gain); gain.connect(audioCtx.destination);
   osc.start(); osc.stop(audioCtx.currentTime+dur);
 }
-function playGameOverSound(){playBeep(120,0.5,0.3); playBeep(100,0.3,0.2);}
+function playGameOverSound(){playBeep(150,0.3,0.3,'sawtooth'); setTimeout(()=>playBeep(100,0.5,0.3,'sawtooth'), 200);}
+
+// --- Visual Effects Classes ---
+
+class Particle {
+    constructor(x, y, color, speed, size, type) {
+        this.x = x; this.y = y; this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * speed;
+        this.vx = Math.cos(angle) * velocity;
+        this.vy = Math.sin(angle) * velocity;
+        this.size = size;
+        this.life = 1.0;
+        this.decay = Math.random() * 0.03 + 0.02;
+        this.type = type; // 'spark', 'trail'
+    }
+    update() {
+        this.x += this.vx; this.y += this.vy;
+        this.life -= this.decay;
+        if(this.type === 'trail') { this.size *= 0.9; } 
+    }
+    draw(ctx) {
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        if(this.type === 'trail') ctx.fillRect(this.x, this.y, this.size, this.size);
+        else ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+    }
+}
+
+class BgLine {
+    constructor(canvasW, canvasH){
+        this.x = Math.random() * canvasW;
+        this.y = Math.random() * canvasH;
+        this.length = Math.random() * 50 + 20;
+        this.speed = Math.random() * 10 + 2; // Data speed
+        this.opacity = Math.random() * 0.3 + 0.05;
+    }
+    update(canvasH){
+        this.y += this.speed * difficultyFactor;
+        if(this.y > canvasH) this.y = -this.length;
+    }
+    draw(ctx){
+        ctx.strokeStyle = `rgba(0, 255, 157, ${this.opacity})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(this.x, this.y + this.length);
+        ctx.stroke();
+    }
+}
+
+function spawnParticles(x, y, color, count, type='spark') {
+    for(let i=0; i<count; i++){
+        particles.push(new Particle(x, y, color, type==='spark'?5:2, type==='spark'?3:4, type));
+    }
+}
 
 function setupCanvasDPR(){
   const dpr=window.devicePixelRatio||1;
   const rect=canvas.getBoundingClientRect();
-  
-  // Set canvas physical size
   canvas.width=Math.max(1,Math.floor(rect.width*dpr));
   canvas.height=Math.max(1,Math.floor(rect.height*dpr));
-  
-  // Set canvas display size
   canvas.style.width=rect.width+"px";
   canvas.style.height=rect.height+"px";
   ctx=canvas.getContext('2d');
   ctx.setTransform(dpr,0,0,dpr,0,0);
-  
-  // Recalculate player initial position based on new canvas height
   player.width=Math.min(120,canvas.clientWidth*0.18);
   player.height=player.width*1.1;
   player.x=(canvas.clientWidth-player.width)/2;
-  
-  // Player starts just above the bottom of the game container (which is 85vh on mobile)
   player.y=canvas.clientHeight-player.height-10; 
+  
+  // Reset BG Lines on resize
+  bgLines = [];
+  for(let i=0; i<20; i++) bgLines.push(new BgLine(canvas.clientWidth, canvas.clientHeight));
 }
 setupCanvasDPR();
 window.addEventListener('resize',setupCanvasDPR);
@@ -279,11 +286,8 @@ leftBtn.addEventListener('touchend',()=>{moveLeft=false;},{passive:false});
 rightBtn.addEventListener('touchstart',()=>{moveRight=true; moveLeft=false;},{passive:false});
 rightBtn.addEventListener('touchend',()=>{moveRight=false;},{passive:false});
 
-/* Prevent scrolling on list touch */
 document.body.addEventListener('touchmove', function(e) {
-    if (!e.target.closest('.player-list') && !e.target.closest('.final-lb')) {
-        e.preventDefault();
-    }
+    if (!e.target.closest('.player-list') && !e.target.closest('.final-lb')) e.preventDefault();
 }, { passive: false });
 
 class Item{
@@ -292,18 +296,20 @@ class Item{
     this.y=-this.size-Math.random()*80;
     this.speed=(3+Math.random()*2)*difficultyFactor;
     const r=Math.random();
-    if(r<0.7){this.type='good';this.emoji='⚡';}
-    else if(r<0.9){this.type='bad';this.emoji='⛽';}
-    // 5% chance combined for shield/magnet
-    else if(r<0.95){this.type='shield';this.emoji='🛡️';} 
-    else{this.type='magnet';this.emoji='🧲';}
+    if(r<0.7){this.type='good';this.emoji='⚡'; this.glowColor='#ffeb3b';}
+    else if(r<0.9){this.type='bad';this.emoji='⛽'; this.glowColor='#ff4d4d';}
+    else if(r<0.95){this.type='shield';this.emoji='🛡️'; this.glowColor='#00bcd4';} 
+    else{this.type='magnet';this.emoji='🧲'; this.glowColor='#ff66ff';}
     this._curvePhase=Math.random()*Math.PI*2;
   }
   update(){this.y+=this.speed;}
   draw(ctx){
+    ctx.save();
+    ctx.shadowBlur = 15; ctx.shadowColor = this.glowColor; // Neon Effect
     ctx.font="28px Arial"; ctx.textAlign="center";
-    ctx.fillStyle=this.type==='good'?'#ffeb3b':(this.type==='bad'?'#ff6b6b':(this.type==='shield'?'#00bcd4':'#ff66ff'));
+    ctx.fillStyle=this.glowColor;
     ctx.fillText(this.emoji,this.x+this.size/2,this.y+this.size/2+10);
+    ctx.restore();
   }
 }
 
@@ -313,29 +319,41 @@ function drawPlayer(){
   const cy=player.y+player.height/2;
   ctx.translate(cx,cy);
   
+  // Trail Effect
+  if(gameRunning && frames%3===0){
+      spawnParticles(cx + (Math.random()*20-10), cy + player.height/2 - 10, 'rgba(0,255,157,0.4)', 1, 'trail');
+  }
+
   if(player.facingRight) ctx.scale(-1,1); 
 
+  // Magnet Visual
   if(player.magnetTimer>0){
     ctx.beginPath();
     const pulseRadius=Math.max(player.width,player.height)*(0.6+0.12*Math.sin(frames/6));
     ctx.arc(0,0,pulseRadius,0,Math.PI*2);
-    ctx.strokeStyle='rgba(255,102,255,0.5)'; ctx.lineWidth=4; ctx.stroke();
+    ctx.strokeStyle='rgba(255,102,255,0.8)'; ctx.lineWidth=3; ctx.shadowBlur=10; ctx.shadowColor='#f0f'; ctx.stroke();
+    ctx.shadowBlur=0; 
   }
+  // Shield Visual
   if(player.hasShield){
     ctx.beginPath();
     ctx.arc(0,0,Math.max(player.width,player.height)*0.6,0,Math.PI*2);
-    ctx.strokeStyle='rgba(0,255,200,0.7)'; ctx.lineWidth=4; ctx.stroke();
+    ctx.fillStyle = `rgba(0, 200, 255, ${0.2 + 0.1*Math.sin(frames/10)})`; ctx.fill();
+    ctx.strokeStyle='rgba(0,255,200,0.9)'; ctx.lineWidth=3; ctx.shadowBlur=15; ctx.shadowColor='#0ff'; ctx.stroke();
+    ctx.shadowBlur=0;
   }
   
-  // Flashing effect during invincibility
-  if(player.isInvincible && frames % 10 < 5) {
-      ctx.globalAlpha = 0.5; // Flash effect
-  }
+  if(player.isInvincible && frames % 10 < 5) ctx.globalAlpha = 0.5;
 
   const animSpeed=10;
   const currentFrame=Math.floor(frames/animSpeed)%2;
   const spriteToDraw=(moveLeft||moveRight)?(currentFrame===0?images.player1:images.player2):images.player1;
-  if(spriteToDraw) ctx.drawImage(spriteToDraw,-player.width/2,-player.height/2,player.width,player.height);
+  if(spriteToDraw) {
+      // Player Glow
+      if(!player.isInvincible) { ctx.shadowBlur = 20; ctx.shadowColor = 'rgba(0,255,157,0.4)'; }
+      ctx.drawImage(spriteToDraw,-player.width/2,-player.height/2,player.width,player.height);
+      ctx.shadowBlur = 0;
+  }
   
   ctx.restore();
 }
@@ -345,17 +363,15 @@ function updateHealthDisplay(){
 }
 
 function initGame(){
-  score=0; health=5; frames=0; items=[]; difficultyFactor=1;
+  score=0; health=5; frames=0; items=[]; difficultyFactor=1; particles=[]; shakeStrength=0;
   startScreen.classList.add('hidden');
   lobbyScreen.classList.add('hidden');
   gameOverScreen.classList.add('hidden');
 
   player.hasShield=false; player.shieldTimer=0; player.magnetTimer=0; 
-  player.isInvincible = false; player.invincibilityTimer = 0; // Reset invincibility
+  player.isInvincible = false; player.invincibilityTimer = 0; 
   
-  // Recalculate player position to ensure it's correct after screen setup
   setupCanvasDPR(); 
-  
   player.facingRight=true;
   
   scoreEl.innerText=`Data: ${score}`; updateHealthDisplay(); shieldTimerEl.innerText='Shield: 0.0s';
@@ -374,10 +390,7 @@ function gameOver(){
       document.getElementById('gameOverTitle').innerText = "Run Ended";
       document.getElementById('multiplayerResults').classList.remove('hidden');
       if(window.dbUpdate && roomId && playerId){
-          window.dbUpdate(window.dbRef(window.db, `runs/${roomId}/players/${playerId}`), {
-              score: score,
-              isDead: true 
-          });
+          window.dbUpdate(window.dbRef(window.db, `runs/${roomId}/players/${playerId}`), { score: score, isDead: true });
       }
       fetchLeaderboard();
   } else {
@@ -392,23 +405,31 @@ function gameOver(){
 
 function gameLoop(){
   if(!gameRunning) return;
+  
+  // Clear with trails removed, strictly clear
   ctx.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
   
-  ctx.strokeStyle='rgba(0,255,157,0.06)'; ctx.lineWidth=1;
-  for(let x=0;x<canvas.clientWidth;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,canvas.clientHeight);ctx.stroke();}
-  for(let y=0;y<canvas.clientHeight;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvas.clientWidth,y);ctx.stroke();}
+  // Screen Shake Transform
+  ctx.save();
+  if(shakeStrength > 0) {
+      const dx = (Math.random() - 0.5) * shakeStrength;
+      const dy = (Math.random() - 0.5) * shakeStrength;
+      ctx.translate(dx, dy);
+      shakeStrength *= 0.9;
+      if(shakeStrength < 0.5) shakeStrength = 0;
+  }
+
+  // Draw Dynamic Background
+  bgLines.forEach(line => { line.update(canvas.clientHeight); line.draw(ctx); });
 
   if(frames%(Math.max(20,48-Math.floor(difficultyFactor*5)))===0) items.push(new Item());
 
   if(moveLeft&&player.x>0){player.x-=player.speed; player.facingRight=false;}
   if(moveRight&&player.x<canvas.clientWidth-player.width){player.x+=player.speed; player.facingRight=true;}
 
-  // Invincibility Timer Update
   if(player.isInvincible){
     player.invincibilityTimer--;
-    if(player.invincibilityTimer<=0){
-        player.isInvincible = false;
-    }
+    if(player.invincibilityTimer<=0) player.isInvincible = false;
   }
 
   if(player.hasShield){
@@ -419,17 +440,14 @@ function gameLoop(){
 
   if(player.magnetTimer>0){
     player.magnetTimer--;
-    const magnetRange=450; const magnetPower=0.12; const curveAmplitude=8; const wobbleSpeed=0.16;
+    const magnetRange=450; const magnetPower=0.15; // Increased power
     for(let it of items){
       if(it.type==='good'||it.type==='shield'){
         const dx=player.x+player.width/2-it.x; const dy=player.y+player.height/2-it.y;
         const dist=Math.sqrt(dx*dx+dy*dy);
         if(dist<magnetRange){
           it.x+=dx/magnetRange*magnetPower*dist*2; it.y+=dy/magnetRange*magnetPower*dist*2;
-          it._curvePhase+=wobbleSpeed;
-          const perpX=-dy/dist, perpY=dx/dist;
-          const curve=Math.sin(it._curvePhase)*(curveAmplitude*(1-dist/magnetRange));
-          it.x+=perpX*curve; it.y+=perpY*curve;
+          spawnParticles(it.x + it.size/2, it.y + it.size/2, '#ff66ff', 1, 'trail'); // Magnet pull trail
         }
       }
     }
@@ -439,30 +457,35 @@ function gameLoop(){
     const it=items[i]; it.update(); it.draw(ctx);
     if(player.x<it.x+it.size && player.x+player.width>it.x && player.y<it.y+it.size && player.y+player.height>it.y){
       let collected = false;
-      if(it.type==='good'){score+=10; playBeep(880); collected=true;}
-      else if(it.type==='shield'){
-          player.hasShield=true; 
-          player.shieldTimer=SHIELD_DURATION; // 7 seconds
-          playBeep(440); 
-          collected=true;
+      const centerItemX = it.x + it.size/2;
+      const centerItemY = it.y + it.size/2;
+
+      if(it.type==='good'){
+          score+=10; playBeep(880, 0.1, 0.2, 'square'); collected=true;
+          spawnParticles(centerItemX, centerItemY, '#ffeb3b', 10);
       }
-      else if(it.type==='magnet'){player.magnetTimer=520; playBeep(660); collected=true;}
-      else { // Bad item (Gas Fee)
-        // Check for shield first, then invincibility
+      else if(it.type==='shield'){
+          player.hasShield=true; player.shieldTimer=SHIELD_DURATION; 
+          playBeep(440, 0.3, 0.3, 'sine'); collected=true;
+          spawnParticles(centerItemX, centerItemY, '#00bcd4', 15);
+      }
+      else if(it.type==='magnet'){
+          player.magnetTimer=520; playBeep(660, 0.3, 0.3, 'triangle'); collected=true;
+          spawnParticles(centerItemX, centerItemY, '#ff66ff', 12);
+      }
+      else { // Bad item
         if(player.hasShield) {
-            // Shield is fully effective until time runs out (new logic)
-            playBeep(330); collected=true;
+            playBeep(200, 0.1, 0.2, 'sawtooth'); collected=true;
+            spawnParticles(centerItemX, centerItemY, '#00bcd4', 8); // Shield block particles
+            shakeStrength = 5;
         }
-        else if(player.isInvincible) {
-            // Invincible: do nothing, just remove the item
-            collected=true;
-        }
+        else if(player.isInvincible) { collected=true; }
         else { 
-          // No shield, not invincible -> take damage and gain invincibility
-          health--; updateHealthDisplay(); playBeep(220); 
-          player.isInvincible = true; 
-          player.invincibilityTimer = INVINCIBILITY_DURATION; // 4 seconds invincibility
-          if(health<=0){items.splice(i,1); return gameOver();}
+          health--; updateHealthDisplay(); playBeep(100, 0.3, 0.4, 'sawtooth');
+          player.isInvincible = true; player.invincibilityTimer = INVINCIBILITY_DURATION;
+          spawnParticles(centerItemX, centerItemY, '#ff4d4d', 20); // Explosion
+          shakeStrength = 20; // Heavy shake
+          if(health<=0){items.splice(i,1); ctx.restore(); return gameOver();} // restore ctx before exit
           collected=true;
         }
       }
@@ -471,14 +494,23 @@ function gameLoop(){
     if(it.y>canvas.clientHeight+50){items.splice(i,1); i--;}
   }
 
+  // Draw and Update Particles
+  for(let i=0; i<particles.length; i++){
+      particles[i].update();
+      particles[i].draw(ctx);
+      if(particles[i].life <= 0) { particles.splice(i,1); i--; }
+  }
+
   drawPlayer();
+  ctx.restore(); // Restore from shake
+
   frames++; difficultyFactor+=0.0002;
   scoreEl.innerText=`Data: ${score}`;
   if(isMultiplayer && frames % 60 === 0) syncScore();
   requestAnimationFrame(gameLoop);
 }
 
-// Player Name Logic: Returns null if empty (Strict Check)
+// Logic same as before
 function getPlayerName(strict = false){
     let name = playerNameInput.value.trim();
     if(strict && !name) return null;
@@ -489,110 +521,62 @@ function getPlayerName(strict = false){
 async function createLobby(){
     if(joiningInProgress) return;
     if(!window.db) { alert("Error: Firebase not loaded."); return; }
-    
-    // Strict Name Check
     playerName = getPlayerName(true);
     if (!playerName) { alert("Please enter a Username !"); playerNameInput.focus(); return; }
-
     joiningInProgress = true;
     const btn = startMultiBtn;
     if(btn) { btn.disabled = true; btn.innerText = "Creating..."; }
-    
     playerId = 'host_' + Date.now();
     roomId = 'room_' + Math.floor(Math.random()*10000);
-    isHost = true;
-    isMultiplayer = true;
-
+    isHost = true; isMultiplayer = true;
     try {
         const roomRef = window.dbRef(window.db, `runs/${roomId}`);
-        // NOTE: removed onDisconnect for host to keep room alive (Persistence)
-
         await window.dbSet(roomRef, {
             status: 'lobby',
             players: { [playerId]: { name: playerName, score: 0, isHost: true, isDead: false } }
         });
-        
-        showLobbyUI();
-        listenToLobby();
-        joiningInProgress = false;
-    } catch (error) {
-        console.error("Firebase Error:", error);
-        alert("Error creating room. Check connection.");
-        joiningInProgress = false;
-        if(btn) { btn.disabled = false; btn.innerText = "PLAY WITH FRIENDS"; }
-    }
+        showLobbyUI(); listenToLobby(); joiningInProgress = false;
+    } catch (error) { console.error(error); alert("Error creating room."); joiningInProgress = false; if(btn) { btn.disabled = false; btn.innerText = "PLAY WITH FRIENDS"; } }
 }
 
 async function joinLobby(){
     if(joiningInProgress || !window.db) return;
-    
-    // Strict Name Check
     playerName = getPlayerName(true);
     if (!playerName) { alert("Please enter a Username !"); playerNameInput.focus(); return; }
-
     joiningInProgress = true;
     const btn = startMultiBtn;
     if(btn) { btn.disabled = true; btn.innerText = "Joining..."; }
-
     try {
         const roomPlayersRef = window.dbRef(window.db, `runs/${roomId}/players`);
         const snapshot = await window.dbGet(roomPlayersRef);
         if (snapshot.exists()) {
             const players = snapshot.val();
-            // Duplicate Name Check
             const isNameTaken = Object.values(players).some(p => p.name.toLowerCase() === playerName.toLowerCase());
-            if (isNameTaken) {
-                alert("This username is already taken in this lobby !");
-                joiningInProgress = false;
-                if(btn) { btn.disabled = false; btn.innerText = "Join Lobby"; }
-                return;
-            }
+            if (isNameTaken) { alert("Username taken!"); joiningInProgress = false; if(btn) { btn.disabled = false; btn.innerText = "Join Lobby"; } return; }
         }
-        
-        playerId = 'p_' + Date.now();
-        isHost = false;
-        isMultiplayer = true;
+        playerId = 'p_' + Date.now(); isHost = false; isMultiplayer = true;
         const playerRef = window.dbRef(window.db, `runs/${roomId}/players/${playerId}`);
-        // NOTE: removed onDisconnect for player to be consistent with "no auto delete" request
-
         await window.dbSet(playerRef, { name: playerName, score: 0, isHost: false, isDead: false });
-        showLobbyUI();
-        listenToLobby();
-
-    } catch (error) {
-        alert("Error joining room.");
-        if(btn) { btn.disabled = false; btn.innerText = "Join Lobby"; }
-    }
+        showLobbyUI(); listenToLobby();
+    } catch (error) { alert("Error joining room."); if(btn) { btn.disabled = false; btn.innerText = "Join Lobby"; } }
     joiningInProgress = false;
 }
 
 function showLobbyUI(){
-    startScreen.classList.add('hidden');
-    lobbyScreen.classList.remove('hidden');
+    startScreen.classList.add('hidden'); lobbyScreen.classList.remove('hidden');
     document.getElementById('shareLink').innerText = window.location.origin + window.location.pathname + '?room=' + roomId;
-    
-    if(isHost){
-        document.getElementById('hostControls').classList.remove('hidden');
-        document.getElementById('clientStatus').classList.add('hidden');
-    } else {
-        document.getElementById('hostControls').classList.add('hidden');
-        document.getElementById('clientStatus').classList.remove('hidden');
-    }
+    if(isHost){ document.getElementById('hostControls').classList.remove('hidden'); document.getElementById('clientStatus').classList.add('hidden'); } 
+    else { document.getElementById('hostControls').classList.add('hidden'); document.getElementById('clientStatus').classList.remove('hidden'); }
 }
 
 function listenToLobby(){
     const roomRef = window.dbRef(window.db, `runs/${roomId}`);
     window.dbOnValue(roomRef, (snapshot) => {
         const data = snapshot.val();
-        if(!data) {
-            if(!gameOverScreen.classList.contains('hidden')){ }
-            else { alert("Room closed."); location.href = window.location.pathname; }
-            return;
-        }
+        if(!data) { if(!gameOverScreen.classList.contains('hidden')){ } else { alert("Room closed."); location.href = window.location.pathname; } return; }
         const list = document.getElementById('lobbyPlayerList');
         list.innerHTML = '';
         let count = 0;
-        
         if(data.players){
             const playersArr = Object.values(data.players);
             count = playersArr.length;
@@ -602,26 +586,13 @@ function listenToLobby(){
                 list.appendChild(li);
             });
         }
-        
-        // Update Player Count Label
         document.getElementById('lobby-count').innerText = `Players: ${count}`;
-
-        if(data.status === 'playing' && !gameRunning && health > 0){
-            initGame();
-        }
+        if(data.status === 'playing' && !gameRunning && health > 0){ initGame(); }
     });
 }
 
-function startMultiplayerGame(){
-    if(!isHost) return;
-    window.dbUpdate(window.dbRef(window.db, `runs/${roomId}`), { status: 'playing' });
-}
-
-function syncScore(){
-    if(!isMultiplayer || !roomId || !playerId || !window.dbUpdate) return;
-    window.dbUpdate(window.dbRef(window.db, `runs/${roomId}/players/${playerId}`), { score: score });
-}
-
+function startMultiplayerGame(){ if(!isHost) return; window.dbUpdate(window.dbRef(window.db, `runs/${roomId}`), { status: 'playing' }); }
+function syncScore(){ if(!isMultiplayer || !roomId || !playerId || !window.dbUpdate) return; window.dbUpdate(window.dbRef(window.db, `runs/${roomId}/players/${playerId}`), { score: score }); }
 function fetchLeaderboard(){
     const playersRef = window.dbRef(window.db, `runs/${roomId}/players`);
     window.dbOnValue(playersRef, (snapshot) => {
@@ -629,9 +600,7 @@ function fetchLeaderboard(){
         const lb = document.getElementById('finalLeaderboard');
         lb.innerHTML = '';
         if(!players) return;
-        
         const sorted = Object.values(players).sort((a,b) => b.score - a.score);
-        
         sorted.forEach((p, index) => {
             const div = document.createElement('div');
             div.className = 'final-lb-row';
@@ -640,41 +609,22 @@ function fetchLeaderboard(){
             else if(index === 1) rankDisplay = '<span class="rank-medal" style="color:#c0c0c0">🥈</span>';
             else if(index === 2) rankDisplay = '<span class="rank-medal" style="color:#cd7f32">🥉</span>';
             else rankDisplay = `<span class="rank-text">#${index+1}</span>`;
-            let statusText = '';
-            if (p.isDead) statusText = '<span class="player-status-dead">✅ Final Score</span>';
-            else statusText = '<span class="player-status-playing">⌛ Running...</span>';
-            div.innerHTML = `
-                <div style="display:flex; align-items:center;">
-                    ${rankDisplay} <span>${p.name}</span> ${statusText} 
-                </div>
-                <span class="lb-score">${p.score}</span>
-            `;
+            let statusText = p.isDead ? '<span class="player-status-dead">✅ Final Score</span>' : '<span class="player-status-playing">⌛ Running...</span>';
+            div.innerHTML = `<div style="display:flex; align-items:center;">${rankDisplay} <span>${p.name}</span> ${statusText}</div><span class="lb-score">${p.score}</span>`;
             lb.appendChild(div);
         });
     });
 }
 
-window.copyLink = function(){
-    const link = document.getElementById('shareLink').innerText;
-    navigator.clipboard.writeText(link).then(() => alert("Link copied!"));
-}
-
+window.copyLink = function(){ navigator.clipboard.writeText(document.getElementById('shareLink').innerText).then(() => alert("Link copied!")); }
 window.leaveLobby = async function(){
     if(isHost && roomId && window.db) await window.dbRemove(window.dbRef(window.db, `runs/${roomId}`));
     else if (roomId && playerId && window.db) await window.dbRemove(window.dbRef(window.db, `runs/${roomId}/players/${playerId}`));
     location.href = window.location.pathname;
 }
 
-startSoloBtn.onclick = () => { 
-    // Allow random name for solo, or use input name
-    playerName = getPlayerName(false);
-    isMultiplayer=false; initGame(); 
-};
-startMultiBtn.onclick = () => {
-    if(joiningInProgress) return;
-    if(roomId) joinLobby();
-    else createLobby();
-};
+startSoloBtn.onclick = () => { playerName = getPlayerName(false); isMultiplayer=false; initGame(); };
+startMultiBtn.onclick = () => { if(joiningInProgress) return; if(roomId) joinLobby(); else createLobby(); };
 hostStartBtn.onclick = startMultiplayerGame;
 tryBtn.onclick = () => { location.href = window.location.pathname; };
 
@@ -689,10 +639,7 @@ function preloadImages(list){
   return Promise.all(promises).then(()=>results);
 }
 const assetsToLoad=[{name:'logo',src:'logo.png'},{name:'player1',src:'player1.png'},{name:'player2',src:'player2.png'},{name:'cry',src:'cry.png'}];
-preloadImages(assetsToLoad).then(imgs=>{
-  images=imgs;
-  if(images.logo) document.getElementById('logo').src=images.logo.src;
-});
+preloadImages(assetsToLoad).then(imgs=>{ images=imgs; if(images.logo) document.getElementById('logo').src=images.logo.src; });
 </script>
 </body>
 </html>
